@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { ForestProduct, Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 const cuid = require('cuid');
@@ -34,7 +34,7 @@ export class ForestProductsService {
       const qrCodeDataURL = await QRCode.toDataURL(id);
       return qrCodeDataURL;
     } catch (error) {
-      throw new Error(`Error while generating QR code: ${error.message}`);
+      throw new BadRequestException(`Error while generating QR code`);
     }
   }
 
