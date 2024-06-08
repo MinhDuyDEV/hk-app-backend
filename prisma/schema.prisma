@@ -28,11 +28,10 @@ model Product {
   type           String  @default("thông thường")
   quantity       Int
   weight         Float
-  qrCode         String
+  qrCode         String  @db.Text
   note           String?
 
-  forestProduct   ForestProduct? @relation(fields: [forestProductId], references: [id])
-  forestProductId String         @unique
+  forestProduct ForestProduct?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -53,9 +52,11 @@ model ForestProduct {
   guestAddressId String
   guestIdentity  String
 
-  product      Product?
-  ownerAddress Address  @relation("OwnerAddress", fields: [ownerAddressId], references: [id])
-  guestAddress Address  @relation("GuestAddress", fields: [guestAddressId], references: [id])
+  productId String  @unique
+  product   Product @relation(fields: [productId], references: [id])
+
+  ownerAddress Address @relation("OwnerAddress", fields: [ownerAddressId], references: [id])
+  guestAddress Address @relation("GuestAddress", fields: [guestAddressId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
